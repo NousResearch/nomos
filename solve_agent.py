@@ -650,7 +650,7 @@ class SolveAgent:
             output += f"## Problem\n\n{problem.problem_text}\n\n"
             output += f"## Submission\n\n{content}\n"
 
-            filepath.write_text(output)
+            filepath.write_text(output, encoding="utf-8")
             safeprint(f"[green]Wrote {filepath}[/green]")
 
     async def _deadline_watchdog(self):
