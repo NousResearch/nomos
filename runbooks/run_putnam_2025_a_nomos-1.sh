@@ -1,6 +1,6 @@
 #!/bin/bash
-# Run solve agent on Putnam 2024 problems
-# 12 problems, 3 hour time limit
+# Run solve agent on Putnam 2025 A problems
+# 6 problems, 3 hour time limit
 
 cd "$(dirname "$0")/.."
 
