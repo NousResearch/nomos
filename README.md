@@ -20,7 +20,7 @@ pip install -r requirements.txt
 python solve_agent.py <problems_dir> [options]
 ```
 
-### Required Argumentsmassiveaxe
+### Required Arguments
 
 - `problems_dir`: Directory containing `.md` problem files
 
