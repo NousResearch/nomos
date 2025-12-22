@@ -82,7 +82,7 @@ Each final submission is written to its own markdown file in the following forma
 ## Runbooks
 
 ```bash
-./runbooks/run_putnam_2025_b_nomos-1.sh   # Putnam 2025 A problems
+./runbooks/run_putnam_2025_a_nomos-1.sh   # Putnam 2025 A problems
 ./runbooks/run_putnam_2025_b_nomos-1.sh   # Putnam 2025 B problems
 ```
 
