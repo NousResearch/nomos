@@ -4,3 +4,4 @@ tenacity
 httpx
 rich
 fastmcp
+toml
