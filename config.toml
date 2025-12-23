@@ -1,0 +1,9 @@
+[models]
+base_url = "http://localhost:30000/v1"
+judge_model = "nomos-1"
+solve_model = "nomos-1"
+
+[agent]
+target_perfect_score=4
+max_concurrent=32
+time_limit_hours=3.0
