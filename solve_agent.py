@@ -127,7 +127,7 @@ class SolveAgent:
 
     def __init__(
         self,
-        problems_dir: str,
+        problems_dir: Optional[str] = None,
         judge_prompt: str = "prompts/score.md",
         submissions_dir: Optional[str] = None,
         solve_prompt: Optional[str] = None,
@@ -140,11 +140,12 @@ class SolveAgent:
         judge_model: str = "nomos-1",
         base_url: str = "http://localhost:30000/v1",
     ):
-        self.problems_dir = Path(problems_dir)
-        if submissions_dir is None:
+        self.solution = None
+        self.problems_dir = Path(problems_dir) if problems_dir else None
+        if submissions_dir is None and problems_dir is not None:
             timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
             submissions_dir = f"submissions/{self.problems_dir.name}-{timestamp}"
-        self.submissions_dir = Path(submissions_dir)
+        self.submissions_dir = Path(submissions_dir) if submissions_dir else None
         self.time_limit_seconds = time_limit_hours * 3600
         # Stop solving 15 min before end, but ensure at least 50% of time for solving
         self.early_stop_seconds = max(
@@ -169,6 +170,7 @@ class SolveAgent:
         self.client = AsyncOpenAI(
             base_url=base_url,
             timeout=httpx.Timeout(99999, connect=60.0),
+            api_key=os.getenv("API_KEY")
         )
         self.start_time: float = 0
         self.stopping = False
@@ -629,6 +631,8 @@ class SolveAgent:
 
     def write_submissions(self):
         """Write final submissions to disk."""
+        if self.submissions_dir is None:
+            return
         self.submissions_dir.mkdir(parents=True, exist_ok=True)
 
         for problem in self.problems.values():
@@ -652,8 +656,25 @@ class SolveAgent:
 
             filepath.write_text(output, encoding="utf-8")
             safeprint(f"[green]Wrote {filepath}[/green]")
+    
+    def get_problem_solution(self, problem_id: str) -> Optional[str]:
+        """Get the final solution content for a given problem ID."""
+        problem = self.problems.get(problem_id)
 
-    async def _deadline_watchdog(self):
+        safeprint(f"[bold]Retrieving solution for problem {problem.problem_id}[/bold]")
+
+        if problem is None:
+            return None
+        
+        content = problem.final_submission.content if problem.final_submission else ""
+
+        output = f"# {problem.problem_id}\n\n"
+        output += f"## Problem\n\n{problem.problem_text}\n\n"
+        output += f"## Submission\n\n{content}\n"
+
+        return output
+
+    async def _deadline_watchdog(self, safe=False):
         """Background task that enforces hard deadline by killing the process."""
         # Trigger 1 min before deadline to allow time for writing submissions
         deadline = self.time_limit_seconds - 60
@@ -666,7 +687,10 @@ class SolveAgent:
                 self.write_submissions()
                 elapsed = time.time() - self.start_time
                 safeprint(f"\n[bold green]Done in {elapsed/60:.1f} minutes[/bold green]")
-                os._exit(0)
+                if not safe:
+                    os._exit(0)
+                else :
+                    break
 
     async def run(self):
         """Main entry point."""

@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  nomos-solver-mcp:
+    build: .
+    container_name: nomos-solver-mcp
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./config.toml:/app/config.toml
+    environment:
+      - API_KEY=sk-xxxxxxxxxxxxx
+    restart: unless-stopped
+    networks:
+      - nomos-network
+
+networks:
+  nomos-network:
+    driver: bridge

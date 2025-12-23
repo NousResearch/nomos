@@ -3,3 +3,5 @@ fire
 tenacity
 httpx
 rich
+fastmcp
+toml
