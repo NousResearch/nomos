@@ -20,7 +20,7 @@ pip install -r requirements.txt
 python solve_agent.py <problems_dir> [options]
 ```
 
-### Required Argumentsmassiveaxe
+### Required Arguments
 
 - `problems_dir`: Directory containing `.md` problem files
 
@@ -82,12 +82,12 @@ Each final submission is written to its own markdown file in the following forma
 ## Runbooks
 
 ```bash
-./runbooks/run_putnam_2025_b_nomos-1.sh   # Putnam 2025 A problems
+./runbooks/run_putnam_2025_a_nomos-1.sh   # Putnam 2025 A problems
 ./runbooks/run_putnam_2025_b_nomos-1.sh   # Putnam 2025 B problems
 ```
 
 ## Results
-When run on the Putnam 2025 with the [NousResearch/Nomos-1](https://huggingface.co/NousResearch/nomos-1) model, this reasoning harness achieves a score of **87/120** as graded by a human expert. Below we show a problem-wise comparison with [Qwen3/Qwen](Qwen/Qwen3-30B-A3B-Thinking-2507), which scores 24/120 under the same conditions.
+When run on the Putnam 2025 with the [NousResearch/Nomos-1](https://huggingface.co/NousResearch/nomos-1) model, this reasoning harness achieves a score of **87/120** as graded by a human expert. Below we show a problem-wise comparison with [Qwen/Qwen3-30B-A3B-Thinking-2507](https://huggingface.co/Qwen/Qwen3-30B-A3B-Thinking-2507), which scores 24/120 under the same conditions.
 <p align="center">
   <img height="400" alt="image" src="https://github.com/user-attachments/assets/46d91fb1-609b-4cae-9919-9ef27087d6f6" />
 </p>
