@@ -590,7 +590,11 @@ class SolveAgent:
         """Finalize a single problem (consolidation + pairwise)."""
         # Determine what to consolidate
         if len(problem.perfect_submissions) >= self.target_perfect_scores:
-            to_consolidate = problem.perfect_submissions[:8]
+            # Cap the perfect submissions in place so consolidate() (which
+            # re-derives its input from problem.perfect_submissions) actually
+            # receives at most 8, mirroring the else branch below.
+            problem.perfect_submissions = problem.perfect_submissions[:8]
+            to_consolidate = problem.perfect_submissions
         else:
             scored = sorted(problem.submissions, key=lambda s: (s.score or 0), reverse=True)
             to_consolidate = scored[:8]
